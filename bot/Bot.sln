@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot", "Bot\Bot.csproj", "{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Debug|iPhone.Build.0 = Debug|iPhone
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Release|iPhone.ActiveCfg = Release|iPhone
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Release|iPhone.Build.0 = Release|iPhone
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{FA823AC8-2322-45E0-AFDF-52F7A998D8FA}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Bot\Bot.csproj
+	EndGlobalSection
+EndGlobal
