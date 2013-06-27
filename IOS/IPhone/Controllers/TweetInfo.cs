@@ -14,7 +14,7 @@ namespace Touchin.HashBot
 
 		public UIImage UserImage
 		{
-			get { return UIImage.FromFile ("Resources/Main/avatar.png"); } 
+			get { return UIImage.FromFile ("Images/Main/avatar.png"); } 
 		}
 
 		public TweetInfo (string userName, string twiteText)

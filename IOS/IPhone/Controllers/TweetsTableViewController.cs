@@ -12,6 +12,7 @@ namespace Touchin.HashBot
 
 		public TweetsTableViewController () : base ("TweetsTableViewController", null)
 		{
+			SetRightBarButton();
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -36,16 +37,41 @@ namespace Touchin.HashBot
 				new TweetInfo("name6" , "text6aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 			};
 
+			AddButtonShowMore();
 			TableWithTweets.Source = new TweetsTableSource (_tweets);
-
-			ButtonShowMore.TouchUpInside += (sender, e) => 
-			{
-				ShowMoreTweets ();
-			};
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
-		void ShowMoreTweets ()
+		private void SetRightBarButton()
+		{
+			var rightBurButton = new UIBarButtonItem();
+			rightBurButton.Title = "Инфо";
+			NavigationItem.RightBarButtonItem = rightBurButton;
+		}
+
+		void AddButtonShowMore()
+		{
+			UIButton button = new UIButton(UIButtonType.RoundedRect);
+			button.Frame = new RectangleF(10, 15, 300, 44);
+			button.LineBreakMode = UILineBreakMode.MiddleTruncation;
+			button.HorizontalAlignment = UIControlContentHorizontalAlignment.Center;
+			button.VerticalAlignment = UIControlContentVerticalAlignment.Center;
+			button.Font = UIFont.BoldSystemFontOfSize(15);
+			button.SetTitleColor(UIColor.Black, UIControlState.Normal);
+			button.SetTitle("Показать ещё", UIControlState.Normal);
+			
+			var buttonContainer = new UIView(new RectangleF(0, 0, 60, 320));
+			buttonContainer.Add(button);
+
+			TableWithTweets.TableFooterView = buttonContainer;
+
+			button.TouchUpInside += (sender, e) => 
+			{
+				ShowMoreTweets();
+			};
+		}
+
+		private void ShowMoreTweets ()
 		{
 			int scrollIndex = _tweets.Count - 1;
 			_tweets.Add (new TweetInfo ("name7", "text7"));
@@ -55,7 +81,9 @@ namespace Touchin.HashBot
 			_tweets.Add (new TweetInfo ("name11", "text11"));
 			_tweets.Add (new TweetInfo ("name12", "text12"));
 			TableWithTweets.ReloadData ();
-			TableWithTweets.ScrollToRow (NSIndexPath.FromRowSection (scrollIndex, 0), UITableViewScrollPosition.Middle, true);
+			TableWithTweets.ScrollToRow (NSIndexPath.FromRowSection (scrollIndex, 0), UITableViewScrollPosition.Top, true);
 		}
+
+
 	}
 }

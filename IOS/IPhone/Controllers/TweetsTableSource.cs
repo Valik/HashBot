@@ -24,11 +24,9 @@ namespace Touchin.HashBot
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
 			var tweetInfo = _items [indexPath.Row];
-
 			var cell = DequeueOrCreateCell (tableView);	
-		
-			SetTweetInfoInCell (tweetInfo, cell);
 
+			SetTweetInfoInCell (tweetInfo, cell);
 			return cell;
 		}
 
@@ -43,10 +41,12 @@ namespace Touchin.HashBot
 
 		private void SetTweetInfoInCell (TweetInfo tweetInfo, UITableViewCell cell)
 		{
-			cell.ImageView.Image = UIImage.FromFile ("Images/Main/avatar.png");
-				//tweetInfo.UserImage;
+			cell.ImageView.Image = tweetInfo.UserImage;
 			cell.TextLabel.Text = tweetInfo.UserName;
-			var tweetText = tweetInfo.TweetText.Length > _tweetTextLenght ? tweetInfo.TweetText.Substring (0, _tweetTextLenght) : tweetInfo.TweetText;
+
+			var tweetText = tweetInfo.TweetText.Length > _tweetTextLenght ? 
+				tweetInfo.TweetText.Substring (0, _tweetTextLenght) : tweetInfo.TweetText;
+
 			cell.DetailTextLabel.Text = tweetText + "...";
 		}
 	}

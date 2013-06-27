@@ -13,20 +13,12 @@ namespace Touchin.HashBot
 	{
 		[Outlet]
 		MonoTouch.UIKit.UITableView TableWithTweets { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UIButton ButtonShowMore { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
 			if (TableWithTweets != null) {
 				TableWithTweets.Dispose ();
 				TableWithTweets = null;
-			}
-
-			if (ButtonShowMore != null) {
-				ButtonShowMore.Dispose ();
-				ButtonShowMore = null;
 			}
 		}
 	}
