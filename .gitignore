@@ -2,7 +2,10 @@
 [Bb]in/
 [Oo]bj/
 
+# Ненужные файлы
 *.DS_Store
+HashBot.IPhone.userprefs
+
 # mstest test results
 TestResults
 
