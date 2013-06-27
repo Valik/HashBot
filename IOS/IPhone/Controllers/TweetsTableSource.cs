@@ -4,12 +4,14 @@ using MonoTouch.UIKit;
 
 namespace Touchin.HashBot
 {
+	public delegate void CellSelectedHandler(TweetInfo tweetInfo);
+
 	public class TweetsTableSource : UITableViewSource
 	{
+		public event CellSelectedHandler CellSelected;
+
 		private List<TweetInfo> _items;
 		private static string _tableCellId = "tweetCell";
-		private const int _tweetTextLenght = 30;
-
 
 		public TweetsTableSource (List<TweetInfo> tweets)
 		{
@@ -24,30 +26,32 @@ namespace Touchin.HashBot
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
 			var tweetInfo = _items [indexPath.Row];
-			var cell = DequeueOrCreateCell (tableView);	
+			var cell = DequeueOrCreateCell(tableView);	
 
-			SetTweetInfoInCell (tweetInfo, cell);
+			cell.UpdateCell(tweetInfo);
 			return cell;
 		}
 
-		private UITableViewCell DequeueOrCreateCell (UITableView tableView)
+		private TableCell DequeueOrCreateCell(UITableView tableView)
 		{
-			var cell = tableView.DequeueReusableCell (_tableCellId);
-			if (cell == null) 
-				cell = new UITableViewCell (UITableViewCellStyle.Subtitle, _tableCellId);
+			var cell = tableView.DequeueReusableCell (_tableCellId) as TableCell;
+			if (cell == null)
+			{
+				cell = new TableCell(UITableViewCellStyle.Subtitle, _tableCellId);
+			}
 
 			return cell;
 		}
 
-		private void SetTweetInfoInCell (TweetInfo tweetInfo, UITableViewCell cell)
+		public override void RowSelected(UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
-			cell.ImageView.Image = tweetInfo.UserImage;
-			cell.TextLabel.Text = tweetInfo.UserName;
+			OnCellSelected(_items[indexPath.Row]);
+		}
 
-			var tweetText = tweetInfo.TweetText.Length > _tweetTextLenght ? 
-				tweetInfo.TweetText.Substring (0, _tweetTextLenght) : tweetInfo.TweetText;
-
-			cell.DetailTextLabel.Text = tweetText + "...";
+		private void OnCellSelected(TweetInfo tweetInfo)
+		{
+			if (CellSelected != null)
+				CellSelected.Invoke(tweetInfo);
 		}
 	}
 }

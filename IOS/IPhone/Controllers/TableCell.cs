@@ -7,46 +7,36 @@ namespace Touchin.HashBot
 {
 	public class TableCell : UITableViewCell
 	{
-		private UILabel _userName;
-		private UILabel _userTwite;
+		private const int _tweetTextLenght = 30;
 
-		public TableCell (NSString cellId) : base (UITableViewCellStyle.Default, cellId)
+		public TableCell (UITableViewCellStyle style, string cellId) : base (style, cellId)
 		{
-			SelectionStyle = UITableViewCellSelectionStyle.Gray;
-			ContentView.BackgroundColor = UIColor.LightGray;
-
-			InitLabels();
-		
-			ContentView.Add (_userName);
-			ContentView.Add (_userTwite);
+			SetCellStyle();
 		}
 
-		public void UpdateCell(TweetInfo twiteInfo)
+		public void UpdateCell(TweetInfo tweetInfo)
 		{
-			_userName.Text = twiteInfo.UserName;
-			_userTwite.Text = twiteInfo.TweetText;
+			ImageView.Image = tweetInfo.UserImage;
+			TextLabel.Text = tweetInfo.UserName;
+
+			var tweetText = tweetInfo.TweetText.Length > _tweetTextLenght ? 
+				tweetInfo.TweetText.Substring (0, _tweetTextLenght) : tweetInfo.TweetText;
+
+			DetailTextLabel.Text = tweetText + "...";
 		}
 
 		public override void LayoutSubviews ()
 		{
-			base.LayoutSubviews ();
-			_userName.Frame = new RectangleF(5, 4, ContentView.Bounds.Width - 63, 25);
-			_userTwite.Frame = new RectangleF(100, 18, 100, 20);
+			base.LayoutSubviews();
 		}
 
-		void InitLabels()
+		void SetCellStyle()
 		{
-			_userName = new UILabel() {
-				Font = UIFont.SystemFontOfSize(34),
-				TextColor = UIColor.FromRGB(0, 0, 0),
-				BackgroundColor = UIColor.Clear,
-			};
-			_userTwite = new UILabel() {
-				Font = UIFont.SystemFontOfSize(26),
-				TextColor = UIColor.FromRGB(0, 0, 0),
-				TextAlignment = UITextAlignment.Center,
-				BackgroundColor = UIColor.Clear,
-			};
+			SelectionStyle = UITableViewCellSelectionStyle.Gray;
+			var backgroundColor = UIColor.FromPatternImage(UIImage.FromFile("Images/Main/table.png"));
+			ContentView.BackgroundColor = backgroundColor;
+			TextLabel.BackgroundColor = backgroundColor;
+			DetailTextLabel.BackgroundColor = backgroundColor;
 		}
 	}
 }

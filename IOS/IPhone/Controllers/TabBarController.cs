@@ -22,7 +22,7 @@ namespace Touchin.HashBot
 
 		private UINavigationController CreateController(string tabTitle, string imagePath)
 		{
-			var tweetsController = new TweetsTableViewController();
+			var tweetsController = new TweetsTableViewController(this);
 			tweetsController.Title = tabTitle;
 
 			var navController = new UINavigationController(tweetsController);
