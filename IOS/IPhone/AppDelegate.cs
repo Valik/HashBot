@@ -14,7 +14,7 @@ namespace Touchin.HashBot
 	{
 		// class-level declarations
 		UIWindow _window;
-		TabBarController _mainScreen;
+		TabBarController _rootController;
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
 		// method you should instantiate the window, load the UI into it and then make the window
@@ -26,15 +26,10 @@ namespace Touchin.HashBot
 		{
 			// create a new window instance based on the screen size
 			_window = new UIWindow (UIScreen.MainScreen.Bounds);
-			var rootNavigationController = new UINavigationController ();
-			_mainScreen = new TabBarController ();
-
-			rootNavigationController.PushViewController (_mainScreen, false);
-			// If you have defined a root view controller, set it here:
-			// window.RootViewController = myViewController;
 
 			// make the window visible
-			_window.RootViewController = rootNavigationController;
+			_rootController = new TabBarController();
+			_window.RootViewController = _rootController;
 			_window.MakeKeyAndVisible ();
 
 			return true;
