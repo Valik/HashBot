@@ -4,7 +4,7 @@
 
 # Ненужные файлы
 *.DS_Store
-HashBot.IPhone.userprefs
+*.userprefs
 
 # mstest test results
 TestResults

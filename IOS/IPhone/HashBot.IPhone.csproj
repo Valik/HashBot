@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7BE2D790-2CD5-4D69-8C60-2BF94DC5002A}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Touchin.HashBot</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>HashBotIPhone</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchI18n />
+    <MtouchArch>ARMv7</MtouchArch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <BuildIpa>true</BuildIpa>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <ConsolePause>false</ConsolePause>
+    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision>Automatic:AppStore</CodesignProvision>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="monotouch" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="Images\" />
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="Controllers\TabBarController.cs" />
+    <Compile Include="Controllers\TableCell.cs" />
+    <Compile Include="Controllers\TableSource.cs" />
+    <Compile Include="Controllers\TweetInfo.cs" />
+    <Compile Include="Controllers\TweetsTableSource.cs" />
+    <Compile Include="Controllers\TweetsTableViewController.cs" />
+    <Compile Include="Controllers\TweetsTableViewController.designer.cs">
+      <DependentUpon>TweetsTableViewController.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <BundleResource Include="Images\Icons\Icon-Small.png" />
+    <BundleResource Include="Images\Icons\Icon-Small%402x.png" />
+    <BundleResource Include="Images\Icons\Icon.png" />
+    <BundleResource Include="Images\Icons\Icon%402x.png" />
+    <BundleResource Include="Images\Icons\iTunesArtwork%402x.png" />
+    <BundleResource Include="Images\Info\button.png" />
+    <BundleResource Include="Images\Info\button%402x.png" />
+    <BundleResource Include="Images\Info\button_pressed.png" />
+    <BundleResource Include="Images\Info\button_pressed%402x.png" />
+    <BundleResource Include="Images\Info\icon_mail.png" />
+    <BundleResource Include="Images\Info\icon_mail%402x.png" />
+    <BundleResource Include="Images\Info\icon_phone.png" />
+    <BundleResource Include="Images\Info\icon_phone%402x.png" />
+    <BundleResource Include="Images\Info\logo.png" />
+    <BundleResource Include="Images\Info\logo%402x.png" />
+    <BundleResource Include="Images\Main\avatar.png" />
+    <BundleResource Include="Images\Main\avatar%402x.png" />
+    <BundleResource Include="Images\Main\avatar_big.png" />
+    <BundleResource Include="Images\Main\avatar_big%402x.png" />
+    <BundleResource Include="Images\Main\mask_avatar.png" />
+    <BundleResource Include="Images\Main\mask_avatar%402x.png" />
+    <BundleResource Include="Images\Main\mask_avatar_mini.png" />
+    <BundleResource Include="Images\Main\mask_avatar_mini%402x.png" />
+    <BundleResource Include="Images\Main\table.png" />
+    <BundleResource Include="Images\Main\table%402x.png" />
+    <BundleResource Include="Images\Main\table_pressed.png" />
+    <BundleResource Include="Images\Main\table_pressed%402x.png" />
+    <BundleResource Include="Images\Splash\Default-568h%402x.png" />
+    <BundleResource Include="Images\Splash\splash.png" />
+    <BundleResource Include="Images\Splash\splash%402x.png" />
+    <BundleResource Include="Images\TabBar\icon_apple.png" />
+    <BundleResource Include="Images\TabBar\icon_apple%402x.png" />
+    <BundleResource Include="Images\TabBar\icon_dribbble.png" />
+    <BundleResource Include="Images\TabBar\icon_dribbble%402x.png" />
+    <BundleResource Include="Images\TabBar\icon_github.png" />
+    <BundleResource Include="Images\TabBar\icon_github%402x.png" />
+    <BundleResource Include="Images\TabBar\icon_twitter.png" />
+    <BundleResource Include="Images\TabBar\icon_twitter%402x.png" />
+    <BundleResource Include="Images\Tweets\bg.png" />
+    <BundleResource Include="Images\Tweets\bg%402x.png" />
+    <BundleResource Include="Images\Tweets\line.png" />
+    <BundleResource Include="Images\Tweets\line%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="Images\Icons\iTunesArtwork.png" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy TabsToSpaces="False" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" WhileNewLinePlacement="DoNotCare" ArrayInitializerWrapping="DoNotChange" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" SpacesBeforeBrackets="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <InterfaceDefinition Include="Controllers\TweetsTableViewController.xib" />
+  </ItemGroup>
+</Project>
