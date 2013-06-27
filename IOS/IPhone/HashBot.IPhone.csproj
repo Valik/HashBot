@@ -90,12 +90,15 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Controllers\TabBarController.cs" />
     <Compile Include="Controllers\TableCell.cs" />
-    <Compile Include="Controllers\TableSource.cs" />
     <Compile Include="Controllers\TweetInfo.cs" />
     <Compile Include="Controllers\TweetsTableSource.cs" />
     <Compile Include="Controllers\TweetsTableViewController.cs" />
     <Compile Include="Controllers\TweetsTableViewController.designer.cs">
       <DependentUpon>TweetsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\TweetScreenController.cs" />
+    <Compile Include="Controllers\TweetScreenController.designer.cs">
+      <DependentUpon>TweetScreenController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -158,5 +161,6 @@
   </ProjectExtensions>
   <ItemGroup>
     <InterfaceDefinition Include="Controllers\TweetsTableViewController.xib" />
+    <InterfaceDefinition Include="Controllers\TweetScreenController.xib" />
   </ItemGroup>
 </Project>
