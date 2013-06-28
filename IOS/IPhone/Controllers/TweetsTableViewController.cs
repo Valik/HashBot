@@ -52,7 +52,7 @@ namespace Touchin.HashBot
 		private void AddButtonShowMore()
 		{
 			var button = CreateButton();
-			var buttonContainer = new UIView(new RectangleF(0, 0, 60, 320));
+			var buttonContainer = new UIView(new RectangleF(0, 0, 320, 60));
 			buttonContainer.Add(button);
 
 			TableWithTweets.TableFooterView = buttonContainer;
