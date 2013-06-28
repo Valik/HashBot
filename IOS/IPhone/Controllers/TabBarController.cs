@@ -12,7 +12,8 @@ namespace Touchin.HashBot
 
 		private void SetTabControllers()
 		{
-			ViewControllers = new UIViewController[] {
+			ViewControllers = new UIViewController[] 
+			{
 				CreateController("#Twitter", "Images/TabBar/icon_twitter.png"),
 				CreateController("#Dribbble", "Images/TabBar/icon_dribbble.png"),
 				CreateController("#Apple", "Images/TabBar/icon_apple.png"),

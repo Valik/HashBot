@@ -25,10 +25,9 @@ namespace Touchin.HashBot
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
 			CapFillTweets();
 			AddButtonShowMore();
-			ConfigureTablele();
+			ConfigureTable();
 		}
 
 		public override void ViewDidAppear(bool animated)
@@ -46,6 +45,7 @@ namespace Touchin.HashBot
 		private void OnCellSelected(TweetInfo tweetInfo)
 		{			
 			_ownerTabController.TabBar.Hidden = true;
+
 
 			var tweetController = new TweetScreenController(tweetInfo);
 			NavigationController.PushViewController(tweetController, true);
@@ -72,7 +72,7 @@ namespace Touchin.HashBot
 			};
 		}
 
-		private void ConfigureTablele()
+		private void ConfigureTable()
 		{
 			var tableSource = new TweetsTableSource(_tweets);
 			tableSource.CellSelected += OnCellSelected;
