@@ -18,16 +18,7 @@ namespace Touchin.HashBot
 		{
 			ImageView.Image = tweetInfo.UserImage;
 			TextLabel.Text = tweetInfo.UserName;
-
-			var tweetText = tweetInfo.TweetText.Length > _tweetTextLenght ? 
-				tweetInfo.TweetText.Substring(0, _tweetTextLenght) : tweetInfo.TweetText;
-
-			DetailTextLabel.Text = tweetText + "...";
-		}
-
-		public override void LayoutSubviews()
-		{
-			base.LayoutSubviews();
+			DetailTextLabel.Text = tweetInfo.TweetText;
 		}
 
 		void SetCellStyle()

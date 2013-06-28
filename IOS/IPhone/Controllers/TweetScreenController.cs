@@ -13,14 +13,12 @@ namespace Touchin.HashBot
 		public TweetScreenController(TweetInfo tweetInfo) : base ("TweetScreenController", null)
 		{
 			_tweetInfo = tweetInfo;
+			HidesBottomBarWhenPushed = true;
 		}
 
 		public override void DidReceiveMemoryWarning()
 		{
-			// Releases the view if it doesn't have a superview.
 			base.DidReceiveMemoryWarning();
-			
-			// Release any cached data, images, etc that aren't in use.
 		}
 
 		public override void ViewDidLoad()
@@ -31,32 +29,21 @@ namespace Touchin.HashBot
 
 		private void SetStyle()
 		{
-			SetVieStyle();
+			SetViewStyle();
 			SetUserImageStyle();
 
 			UserName.Text = _tweetInfo.UserName;
 
 			TweetLabel.Text = _tweetInfo.TweetText;
+
+			LineImageView.Image = UIImage.FromFile("Images/Tweets/line.png");
 		}
 
-		void SetVieStyle()
+		private void SetViewStyle()
 		{
 			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile("Images/Tweets/bg.png"));
 			NavigationItem.LeftBarButtonItem = CreateBackButton();
 			NavigationItem.Title = "Твит";
-		}
-
-		private UIBarButtonItem CreateBackButton()
-		{
-			var dummyButton = UIButton.FromType(UIButtonType.Custom);
-			var backButton = (UIButton)MonoTouch.ObjCRuntime.Runtime.GetNSObject(
-				MonoTouch.ObjCRuntime.Messaging.IntPtr_objc_msgSend_int(
-				dummyButton.ClassHandle, MonoTouch.ObjCRuntime.Selector.GetHandle("buttonWithType:"), 101));
-
-			backButton.SetTitle("Твиты", UIControlState.Normal);
-			backButton.TouchUpInside += OnBarButtonClicked;
-
-			return new UIBarButtonItem(backButton);;
 		}
 
 		private void SetUserImageStyle()
@@ -69,6 +56,19 @@ namespace Touchin.HashBot
 			UserImage.Layer.BorderColor = UIColor.Black.CGColor;
 			UserImage.Layer.ShadowOffset = new SizeF(1, 1);
 			UserImage.Layer.ShadowColor = UIColor.FromRGBA(0, 0, 0, 50).CGColor;
+		}
+		
+		private UIBarButtonItem CreateBackButton()
+		{
+			var dummyButton = UIButton.FromType(UIButtonType.Custom);
+			var backButton = (UIButton)MonoTouch.ObjCRuntime.Runtime.GetNSObject(
+				MonoTouch.ObjCRuntime.Messaging.IntPtr_objc_msgSend_int(
+				dummyButton.ClassHandle, MonoTouch.ObjCRuntime.Selector.GetHandle("buttonWithType:"), 101));
+
+			backButton.SetTitle("Твиты", UIControlState.Normal);
+			backButton.TouchUpInside += OnBarButtonClicked;
+
+			return new UIBarButtonItem(backButton);;
 		}
 
 		private void OnBarButtonClicked (object sender, EventArgs e)

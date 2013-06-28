@@ -19,6 +19,9 @@ namespace Touchin.HashBot
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel TweetLabel { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView LineImageView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -35,6 +38,11 @@ namespace Touchin.HashBot
 			if (TweetLabel != null) {
 				TweetLabel.Dispose ();
 				TweetLabel = null;
+			}
+
+			if (LineImageView != null) {
+				LineImageView.Dispose ();
+				LineImageView = null;
 			}
 		}
 	}

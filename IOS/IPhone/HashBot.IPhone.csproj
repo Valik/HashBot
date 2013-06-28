@@ -100,6 +100,10 @@
     <Compile Include="Controllers\TweetScreenController.designer.cs">
       <DependentUpon>TweetScreenController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\InfoController.cs" />
+    <Compile Include="Controllers\InfoController.designer.cs">
+      <DependentUpon>InfoController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -145,6 +149,9 @@
     <BundleResource Include="Images\Tweets\bg%402x.png" />
     <BundleResource Include="Images\Tweets\line.png" />
     <BundleResource Include="Images\Tweets\line%402x.png" />
+    <BundleResource Include="Resources\Default.png" />
+    <BundleResource Include="Resources\Default%402x.png" />
+    <BundleResource Include="Resources\Default-568h%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="Images\Icons\iTunesArtwork.png" />
@@ -162,5 +169,6 @@
   <ItemGroup>
     <InterfaceDefinition Include="Controllers\TweetsTableViewController.xib" />
     <InterfaceDefinition Include="Controllers\TweetScreenController.xib" />
+    <InterfaceDefinition Include="Controllers\InfoController.xib" />
   </ItemGroup>
 </Project>

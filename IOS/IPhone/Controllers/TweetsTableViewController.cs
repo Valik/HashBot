@@ -9,9 +9,9 @@ namespace Touchin.HashBot
 	public partial class TweetsTableViewController : UIViewController
 	{
 		private List<TweetInfo> _tweets;
-		private UITabBarController _ownerTabController;
+		private TabBarController _ownerTabController;
 
-		public TweetsTableViewController (UITabBarController tabController) : base ("TweetsTableViewController", null)
+		public TweetsTableViewController (TabBarController tabController) : base ("TweetsTableViewController", null)
 		{
 			_ownerTabController = tabController;
 			SetRightBarButton();
@@ -30,23 +30,8 @@ namespace Touchin.HashBot
 			ConfigureTable();
 		}
 
-		public override void ViewDidAppear(bool animated)
-		{
-			base.ViewDidAppear(animated);
-			UnhideTabBar();
-		}
-
-		private void UnhideTabBar()
-		{
-			if (_ownerTabController.TabBar.Hidden == true)
-				_ownerTabController.TabBar.Hidden = false;
-		}
-
 		private void OnCellSelected(TweetInfo tweetInfo)
-		{			
-			_ownerTabController.TabBar.Hidden = true;
-
-
+		{
 			var tweetController = new TweetScreenController(tweetInfo);
 			NavigationController.PushViewController(tweetController, true);
 		}
@@ -56,6 +41,12 @@ namespace Touchin.HashBot
 			var rightBurButton = new UIBarButtonItem();
 			rightBurButton.Title = "Инфо";
 			NavigationItem.RightBarButtonItem = rightBurButton;
+			rightBurButton.Clicked += OnInfoButtonClicked;
+		}
+
+		private void OnInfoButtonClicked (object sender, EventArgs e)
+		{
+			NavigationController.PushViewController(new InfoController(), true);
 		}
 
 		private void AddButtonShowMore()
