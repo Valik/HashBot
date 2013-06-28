@@ -7,7 +7,6 @@ namespace Touchin.HashBot
 {
 	public partial class InfoController : UIViewController
 	{
-		private string _companyTelNumber = "89500000000";
 		public InfoController() : base ("InfoController", null)
 		{
 			HidesBottomBarWhenPushed = true;
@@ -30,31 +29,40 @@ namespace Touchin.HashBot
 		
 		private void SetButtonsStyle()
 		{
-			UIImage image = UIImage.FromFile("Images/Info/button.png");
-			CallButton.SetBackgroundImage(UIImage.FromFile("Images/Info/button.png"), UIControlState.Normal);
-			CallButton.SetBackgroundImage(UIImage.FromFile("Images/Info/button_pressed.png"), UIControlState.Selected);
-			CallButton.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile("Images/Info/button.png"));
+			var callImage = UIImage.FromFile("Images/Info/icon_phone.png");
+			var mailImage = UIImage.FromFile("Images/Info/icon_mail.png"); 
+			var bgImage = UIImage.FromFile("Images/Info/button.png");
+			var bgPressedImage = UIImage.FromFile("Images/Info/button_pressed.png");
+
+			var buttonImage = bgImage.StretchableImage((int)((bgImage.Size.Width - 1) / 2), (int)CallButton.Frame.Height);
+			var pressedButtonImage = bgPressedImage.StretchableImage((int)((bgPressedImage.Size.Width - 1) / 2), (int)CallButton.Frame.Height); 
+
+			CallButton.SetBackgroundImage(buttonImage, UIControlState.Normal);
+			CallButton.SetBackgroundImage(pressedButtonImage, UIControlState.Selected);
+			CallButton.SetImage(callImage, UIControlState.Normal);
+			CallButton.ImageEdgeInsets = new UIEdgeInsets(-7, 0, 0, 0);
 			CallButton.TouchUpInside += OnCallButtonClicked;
 
-			MailButton.ContentMode = UIViewContentMode.Center;
-			MailButton.Image = image;
+			MailButton.SetBackgroundImage(buttonImage, UIControlState.Normal);
+			MailButton.SetBackgroundImage(pressedButtonImage, UIControlState.Selected);
+			MailButton.SetImage(mailImage, UIControlState.Normal);
+			MailButton.ImageEdgeInsets = new UIEdgeInsets(-7, 0, 0, 0);
+			MailButton.TouchUpInside += OnMailButtonClicked;
 		}
 
 		private void OnCallButtonClicked(object sender, EventArgs e)
 		{
-			NSUrl companyPhoneURl = new NSUrl("tel:" + _companyTelNumber);
+			var companyPhoneURl = new NSUrl("tel:89500000000");
 			if (!UIApplication.SharedApplication.OpenUrl(companyPhoneURl))
 			{
-				int i = 0;
-				i++;
 			}
+		}
 
-			NSUrl testUrl = new NSUrl("http://ya.ru");
-
-			if (!UIApplication.SharedApplication.OpenUrl(testUrl))
+		private void OnMailButtonClicked(object sender, EventArgs e)
+		{
+			var companyUrl = new NSUrl("http://touchin.ru/");
+			if (!UIApplication.SharedApplication.OpenUrl(companyUrl))
 			{
-				int i = 0;
-				i++;
 			}
 		}
 	}

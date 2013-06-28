@@ -18,7 +18,7 @@ namespace Touchin.HashBot
 		MonoTouch.UIKit.UIButton CallButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView MailButton { get; set; }
+		MonoTouch.UIKit.UIButton MailButton { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

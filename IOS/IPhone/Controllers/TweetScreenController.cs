@@ -8,7 +8,7 @@ namespace Touchin.HashBot
 {
 	public partial class TweetScreenController : UIViewController
 	{
-		TweetInfo _tweetInfo;
+		private TweetInfo _tweetInfo;
 
 		public TweetScreenController(TweetInfo tweetInfo) : base ("TweetScreenController", null)
 		{
