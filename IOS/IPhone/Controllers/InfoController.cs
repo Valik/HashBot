@@ -52,6 +52,9 @@ namespace Touchin.HashBot
 
 		private void OnCallButtonClicked(object sender, EventArgs e)
 		{
+			TwitterTestMethod();
+
+
 			var companyPhoneURl = new NSUrl("tel:89500000000");
 			if (!UIApplication.SharedApplication.OpenUrl(companyPhoneURl))
 			{
@@ -64,6 +67,11 @@ namespace Touchin.HashBot
 			if (!UIApplication.SharedApplication.OpenUrl(companyUrl))
 			{
 			}
+		}
+
+		static void TwitterTestMethod()
+		{
+			TwitterWorker worker = new TwitterWorker();
 		}
 	}
 }

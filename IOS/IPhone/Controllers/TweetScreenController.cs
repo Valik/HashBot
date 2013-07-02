@@ -49,7 +49,7 @@ namespace Touchin.HashBot
 		private void SetUserImageStyle()
 		{
 			var image = UIImage.FromFile("Images/Main/avatar_big.png");
-			UserImage.Image = CreateUserImage(image);
+			UserImage.Image = image;
 			UserImage.Layer.CornerRadius = 5;
 			UserImage.Layer.MasksToBounds = true;
 			UserImage.Layer.BorderWidth = 1;
@@ -74,45 +74,6 @@ namespace Touchin.HashBot
 		private void OnBarButtonClicked (object sender, EventArgs e)
 		{
 			NavigationController.PopViewControllerAnimated(true);
-		}
-
-		private UIImage CreateUserImage(UIImage targetImage)
-		{
-			/*
-			var maskImage = UIImage.FromFile("Images/Main/mask_avatar.png").CGImage;
-
-			maskImage.
-			var userImage = targetImage.CGImage.WithMask(maskImage);
-			var retImage = new UIImage(userImage);
-
-			return retImage;*/
-
-			CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-		
-			// create a bitmap graphics context the size of the image
-			var mainViewContentContext = new CGBitmapContext(null, (int)targetImage.Size.Width, (int)targetImage.Size.Height,
-			                                             8, 0, colorSpace, CGImageAlphaInfo.PremultipliedFirst);
-			// free the rgb colorspace
-			colorSpace.Dispose();    
-
-			if (mainViewContentContext == null)
-				return null;
-
-			var maskImage = UIImage.FromFile("Images/Main/mask_avatar.png").CGImage;
-
-			mainViewContentContext.ClipToMask(new RectangleF(0, 0, targetImage.Size.Width, targetImage.Size.Height), targetImage.CGImage);
-			mainViewContentContext.DrawImage(new RectangleF(0, 0, targetImage.Size.Width, targetImage.Size.Height), targetImage.CGImage);
-
-			// Create CGImageRef of the main view bitmap content, and then
-			// release that bitmap context
-
-			var cgImage = mainViewContentContext.ToImage();
-			mainViewContentContext.Dispose();
-
-			// convert the finished resized image to a UIImage 
-			var userImage = new UIImage(cgImage);
-
-			return userImage;
 		}
 	}
 }
