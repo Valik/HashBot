@@ -8,13 +8,14 @@ namespace Touchin.HashBot
 {
 	public partial class TweetsTableViewController : UIViewController
 	{
-		private List<TweetInfo> _tweets;
+		private List<TweetInfo> _tweets = new List<TweetInfo>();
 		private TabBarController _ownerTabController;
+		private bool _isInitState = true;
+		private TwitterWorker _worker;
 
 		public TweetsTableViewController (TabBarController tabController) : base ("TweetsTableViewController", null)
 		{
 			_ownerTabController = tabController;
-			SetRightBarButton();
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -25,9 +26,11 @@ namespace Touchin.HashBot
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			CapFillTweets();
-			AddButtonShowMore();
+			SetRightBarButton();
 			ConfigureTable();
+			FillTweets();
+			AddButtonShowMore();
+			//ConfigureTable();
 		}
 
 		private void OnCellSelected(TweetInfo tweetInfo)
@@ -95,30 +98,42 @@ namespace Touchin.HashBot
 
 		private void ShowMoreTweets ()
 		{
-			var scrollIndex = CapAddTweets();
-			TableWithTweets.ReloadData ();
-			TableWithTweets.ScrollToRow (NSIndexPath.FromRowSection (scrollIndex, 0), UITableViewScrollPosition.Top, true);
+			AddTweets();
 		}
 
-		private void CapFillTweets()
+		private void FillTweets()
 		{
-			_tweets = new List<TweetInfo>() {
-				new TweetInfo("name1", "text1"),
-				new TweetInfo("name2", "text2"),
-				new TweetInfo("name3", "text3aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-				new TweetInfo("name4", "text4"),
-				new TweetInfo("name6", "text6aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-			};
+			_worker = new TwitterWorker();
+
+			_worker.TwittsCompleted += OnTwittsCompleted;
+			_worker.SearchTwittsByHashTag(Title.TrimStart(new char[]{'#'}));
 		}
 
-		private int CapAddTweets()
+		private void OnTwittsCompleted (List<TweetInfo> twitts)
 		{
-			int scrollIndex = _tweets.Count - 1;
-			_tweets.Add(new TweetInfo("name7", "text7"));
-			_tweets.Add(new TweetInfo("name8", "text8"));
-			_tweets.Add(new TweetInfo("name9", "text9"));
-			_tweets.Add(new TweetInfo("name10", "text10"));
-			return scrollIndex;
+			if (_isInitState)
+			{
+				_tweets.AddRange(twitts);
+				RefreshTable(0);
+				_isInitState = false;
+			}
+			else
+			{
+				int scrollIndex = _tweets.Count;
+				_tweets.AddRange(twitts);
+				RefreshTable(scrollIndex);
+			}
+		}
+
+		private void AddTweets()
+		{
+			_worker.SearchTwittsByHashTag(Title.TrimStart(new char[]{'#'}));
+		}
+
+		void RefreshTable(int scrollIndex)
+		{
+			TableWithTweets.ReloadData();
+			TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
 		}
 	}
 }

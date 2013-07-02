@@ -12,6 +12,8 @@ namespace Touchin.HashBot
 	{
 		public event TwittsCompletedHandler TwittsCompleted;
 
+		private const int _countOfTwitts = 5;
+
 		private const string _consumerKey = "rn0pnadaymIuTek11Whg";
 		private const string _consumerSecret = "27ajTVlYyk7U7QOK8SeZhYfe8st9uOr1kdAQ2bupU";
 		private const string _accessToken = "1558296156-QCtKDAnKDtuJXMrXiTGxzYKIX5DzZy51qUelysB";
@@ -46,7 +48,7 @@ namespace Touchin.HashBot
 
 			client.Authenticator = OAuth1Authenticator.ForProtectedResource(_consumerKey, _consumerSecret, _accessToken, _accesTokenSecret);
 			request.AddParameter("q", tag);
-			request.AddParameter("count", "4");
+			request.AddParameter("count", _countOfTwitts);
 			request.RequestFormat = DataFormat.Json;
 			request.RootElement = "RootObject";
 

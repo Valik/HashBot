@@ -29,7 +29,7 @@ namespace Touchin.HashBot
 
 			// make the window visible
 			_rootController = new TabBarController();
-			_window.RootViewController = new InfoController();
+			_window.RootViewController = _rootController;
 			_window.MakeKeyAndVisible ();
 
 			return true;
