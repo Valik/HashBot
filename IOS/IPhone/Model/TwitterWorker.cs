@@ -32,20 +32,47 @@ namespace Touchin.HashBot
 		{
 			var tag = hashTag as String;
 
-			var client = new RestClient();
-			client.Authenticator = OAuth1Authenticator.ForProtectedResource
-				(_consumerKey, _consumerSecret, _accessToken, _accesTokenSecret);
+			var response = GetResponse(tag);
 
-			var request = new RestRequest ("https://api.twitter.com/1.1/search/tweets.json");
-			request.AddParameter("q", "GitHub");
-			request.AddParameter("count", "10");
+			var complitedTwitts = FillTwits(response);
 
-			var response = client.Execute(request);
-			var responseText = response.Content;
-
-
+			OnTwittsComplited(complitedTwitts);
 		}
 
+		private IRestResponse<RootObject> GetResponse(string tag)
+		{
+			var client = new RestClient();
+			var request = new RestRequest("https://api.twitter.com/1.1/search/tweets.json");
+
+			client.Authenticator = OAuth1Authenticator.ForProtectedResource(_consumerKey, _consumerSecret, _accessToken, _accesTokenSecret);
+			request.AddParameter("q", tag);
+			request.AddParameter("count", "4");
+			request.RequestFormat = DataFormat.Json;
+			request.RootElement = "RootObject";
+
+			return client.Execute<RootObject>(request);
+		}
+
+		private List<TweetInfo> FillTwits(IRestResponse<RootObject> response)
+		{
+			var result = new List<TweetInfo>();
+
+			foreach (var curStatus in response.Data.statuses)
+			{
+				var curTwittInfo = new TweetInfo(curStatus.user.name, curStatus.text, curStatus.created_at, curStatus.user.profile_image_url);
+				result.Add(curTwittInfo);
+			}
+
+			return result;
+		}
+
+		private void OnTwittsComplited(List<TweetInfo> complitedTwitts)
+		{
+			if (TwittsCompleted != null)
+			{
+				TwittsCompleted.Invoke(complitedTwitts);
+			}
+		}
 	}
 }
 

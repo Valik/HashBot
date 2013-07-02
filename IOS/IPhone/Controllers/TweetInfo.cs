@@ -5,12 +5,13 @@ namespace Touchin.HashBot
 {
 	public class TweetInfo
 	{
-		private string _userName;
-		private string _tweetText;
+		public string UserName { get; private set;}
 
-		public string UserName { get { return _userName; } }
+		public string TweetText { get; private set;}
 
-		public string TweetText { get { return _tweetText; } }
+		public string TimeOfCreating { get; private set; }
+
+		public string ImageSrc { get; private set; }
 
 		public UIImage UserImage
 		{
@@ -19,8 +20,16 @@ namespace Touchin.HashBot
 
 		public TweetInfo (string userName, string twiteText)
 		{
-			_userName = userName;
-			_tweetText = twiteText;
+			UserName = userName;
+			TweetText = twiteText;
+		}
+
+		public TweetInfo (string userName, string twiteText, string timeOfCreating, string imageSrc)
+		{
+			UserName = userName;
+			TweetText = twiteText;
+			TimeOfCreating = timeOfCreating;
+			ImageSrc = imageSrc;
 		}
 	}
 }

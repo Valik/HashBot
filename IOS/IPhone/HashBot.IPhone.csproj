@@ -109,6 +109,9 @@
       <DependentUpon>InfoController.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\TwitterWorker.cs" />
+    <Compile Include="Model\RootObject.cs" />
+    <Compile Include="Model\Status.cs" />
+    <Compile Include="Model\User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
