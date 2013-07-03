@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using RestSharp;
@@ -6,12 +7,10 @@ using RestSharp.Authenticators;
 
 namespace Touchin.HashBot
 {
-	public delegate void TwittsCompletedHandler(List<TweetInfo> twitts);
+//	public delegate void TwittsCompletedHandler(List<TweetInfo> twitts);
 
 	public class TwitterWorker
 	{
-		public event TwittsCompletedHandler TwittsCompleted;
-
 		private const int _countOfTwitts = 5;
 
 		private const string _consumerKey = "rn0pnadaymIuTek11Whg";
@@ -24,47 +23,25 @@ namespace Touchin.HashBot
 
 		}
 
-		public void FillTwittsByHashTag(string hashTag)
-		{
-			var tag = hashTag as String;
-
-			BeginRequest(tag);
-		}
-
-		private void BeginRequest(string tag)
+		public void FillTwittsByHashTag(string hashTag, Action<IEnumerable<TweetInfo>> callback)
 		{
 			var client = new RestClient();
 			var request = new RestRequest("https://api.twitter.com/1.1/search/tweets.json");
 
 			client.Authenticator = OAuth1Authenticator.ForProtectedResource(_consumerKey, _consumerSecret, _accessToken, _accesTokenSecret);
-			request.AddParameter("q", tag);
+			request.AddParameter("q", hashTag);
 			request.AddParameter("count", _countOfTwitts);
 
-			client.ExecuteAsync<RootObject>(request, (response) =>
+			client.ExecuteAsync<RootObject>(request, (response) => 
 			{
-				FillTwits(response);
+				var result = new List<TweetInfo>();
+
+				foreach (var curStatus in response.Data.statuses)
+					result.Add(new TweetInfo(curStatus.user.name, curStatus.text, curStatus.createdAt, curStatus.user.profileImageUrl));
+
+				callback(result);
 			});
-		}
 
-		private void FillTwits(IRestResponse<RootObject> response)
-		{
-			var result = new List<TweetInfo>();
-
-			foreach (var curStatus in response.Data.statuses)
-			{
-				var curTwittInfo = new TweetInfo(curStatus.user.name, curStatus.text, curStatus.createdAt, curStatus.user.profileImageUrl);
-				result.Add(curTwittInfo);
-			}
-
-			OnTwittsComplited(result);
-		}
-
-		private void OnTwittsComplited(List<TweetInfo> complitedTwitts)
-		{
-			if (TwittsCompleted != null)
-			{
-				TwittsCompleted.Invoke(complitedTwitts);
-			}
 		}
 	}
 }

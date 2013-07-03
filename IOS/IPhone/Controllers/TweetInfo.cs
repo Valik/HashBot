@@ -18,13 +18,11 @@ namespace Touchin.HashBot
 		{ 
 			get
 			{
-				CultureInfo provider = CultureInfo.InvariantCulture;
-				DateTime date = DateTime.ParseExact(_createdAt, "ddd MMM d HH:mm:ss %zzzz yyyy", provider);
+				var provider = CultureInfo.InvariantCulture;
+				var date = DateTime.ParseExact(_createdAt, "ddd MMM d HH:mm:ss %zzzz yyyy", provider);
 
 				return date;
 			}
-			private set 
-			{ }
 		}
 
 		public UIImage UserImage { get; set; }

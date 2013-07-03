@@ -9,8 +9,9 @@ namespace Touchin.HashBot
 	public partial class TweetsTableViewController : UIViewController
 	{
 		private List<TweetInfo> _tweets = new List<TweetInfo>();
-		private bool _isInitState = true;
 		private TwitterWorker _worker;
+		private UIAlertView _alert;
+		private bool _isInitState = true;
 
 		public TweetsTableViewController (TabBarController tabController) : base ("TweetsTableViewController", null)
 		{ }
@@ -23,7 +24,10 @@ namespace Touchin.HashBot
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+			CreateAlert();
+			StartShowAlert();
 			SetRightBarButton();
+			StartShowAlert();
 			FillTweets();
 			ConfigureTable();
 			AddButtonShowMore();
@@ -32,6 +36,28 @@ namespace Touchin.HashBot
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
+		}
+
+		private void CreateAlert()
+		{
+			_alert = new UIAlertView(new RectangleF(10, 56, 300, 200));
+			_alert.AlertViewStyle = UIAlertViewStyle.Default;
+			_alert.Title = "HashBot";
+			_alert.Message = "Загрузка данных...";
+			var indicator = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+			indicator.Center = new PointF(139.5f, 100);
+			indicator.StartAnimating();
+			_alert.AddSubview(indicator);
+		}
+
+		private void StartShowAlert()
+		{
+			_alert.Show();
+		}
+
+		private void StopShowAlert()
+		{
+			_alert.DismissWithClickedButtonIndex(-1, true);
 		}
 
 		private void OnCellSelected(TweetInfo tweetInfo)
@@ -100,6 +126,7 @@ namespace Touchin.HashBot
 
 		private void ShowMoreTweets ()
 		{
+			StartShowAlert();
 			AddMoreTwitts();
 		}
 
@@ -107,20 +134,20 @@ namespace Touchin.HashBot
 		{
 			_worker = new TwitterWorker();
 
-			_worker.TwittsCompleted += OnTwittsCompleted;
-			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}));
+			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
 		}
 
-		private void OnTwittsCompleted (List<TweetInfo> twitts)
+		private void OnTwittsCompleted (IEnumerable<TweetInfo> twitts)
 		{
 			InvokeOnMainThread(delegate 
 			{
 				AddTwitts(twitts);
+				StopShowAlert();
 				DowloadImagesForTwitts(twitts);
 			});
 		}
 
-		private void AddTwitts(List<TweetInfo> twitts)
+		private void AddTwitts(IEnumerable<TweetInfo> twitts)
 		{
 			if (_isInitState)
 			{
@@ -138,7 +165,7 @@ namespace Touchin.HashBot
 
 		private void AddMoreTwitts()
 		{
-			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}));
+			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
 		}
 
 		private void RefreshTable(int scrollIndex)
@@ -148,7 +175,7 @@ namespace Touchin.HashBot
 				TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
 		}
 
-		private void DowloadImagesForTwitts(List<TweetInfo> twitts)
+		private void DowloadImagesForTwitts(IEnumerable<TweetInfo> twitts)
 		{
 			foreach (var curTwittInfo in twitts)
 				if (curTwittInfo.UserImage == null)
@@ -157,8 +184,8 @@ namespace Touchin.HashBot
 
 		private void DownloadUserImage(TweetInfo tweetInfo)
 		{
-			var imageWorker = new ImageWorker(OnImageDownloadedForTwitt, tweetInfo);
-			imageWorker.BeginDownloadingImage(tweetInfo.ImageSrc);
+			var imageWorker = new ImageWorker();
+			imageWorker.DownloadImageForTwitt(tweetInfo, OnImageDownloadedForTwitt);
 		}
 
 		private void OnImageDownloadedForTwitt(UIImage userImage, TweetInfo tweetInfo)
