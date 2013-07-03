@@ -25,7 +25,7 @@ namespace Touchin.HashBot
 
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
-			var tweetInfo = _items [indexPath.Row];
+			var tweetInfo = _items[indexPath.Row];
 			var cell = DequeueOrCreateCell(tableView);	
 
 			cell.UpdateCell(tweetInfo);
@@ -34,7 +34,7 @@ namespace Touchin.HashBot
 
 		private TableCell DequeueOrCreateCell(UITableView tableView)
 		{
-			var cell = tableView.DequeueReusableCell (_tableCellId) as TableCell;
+			var cell = tableView.DequeueReusableCell(_tableCellId) as TableCell;
 			if (cell == null)
 			{
 				cell = new TableCell(UITableViewCellStyle.Subtitle, _tableCellId);

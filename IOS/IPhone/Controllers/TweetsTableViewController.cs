@@ -27,16 +27,21 @@ namespace Touchin.HashBot
 		{
 			base.ViewDidLoad ();
 			SetRightBarButton();
-			ConfigureTable();
 			FillTweets();
+			ConfigureTable();
 			AddButtonShowMore();
-			//ConfigureTable();
+		}
+
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear(animated);
 		}
 
 		private void OnCellSelected(TweetInfo tweetInfo)
 		{
 			var tweetController = new TweetScreenController(tweetInfo);
 			NavigationController.PushViewController(tweetController, true);
+			TableWithTweets.DeselectRow(TableWithTweets.IndexPathForSelectedRow, false);
 		}
 
 		private void SetRightBarButton()
@@ -98,7 +103,7 @@ namespace Touchin.HashBot
 
 		private void ShowMoreTweets ()
 		{
-			AddTweets();
+			AddMoreTwitts();
 		}
 
 		private void FillTweets()
@@ -106,34 +111,46 @@ namespace Touchin.HashBot
 			_worker = new TwitterWorker();
 
 			_worker.TwittsCompleted += OnTwittsCompleted;
-			_worker.SearchTwittsByHashTag(Title.TrimStart(new char[]{'#'}));
+			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}));
 		}
 
 		private void OnTwittsCompleted (List<TweetInfo> twitts)
 		{
-			if (_isInitState)
+			InvokeOnMainThread(delegate 
 			{
-				_tweets.AddRange(twitts);
-				RefreshTable(0);
-				_isInitState = false;
-			}
-			else
-			{
-				int scrollIndex = _tweets.Count;
-				_tweets.AddRange(twitts);
-				RefreshTable(scrollIndex);
-			}
+				AddTwitts(twitts);
+			});
 		}
 
-		private void AddTweets()
+		private void AddTwitts(List<TweetInfo> twitts)
 		{
-			_worker.SearchTwittsByHashTag(Title.TrimStart(new char[]{'#'}));
+			using (var pool = new NSAutoreleasePool())
+			{
+				if (_isInitState)
+				{
+					_tweets.AddRange(twitts);
+					RefreshTable(0);
+					_isInitState = false;
+				}
+				else
+				{
+					int scrollIndex = _tweets.Count;
+					_tweets.AddRange(twitts);
+					RefreshTable(scrollIndex);
+				}
+			}
 		}
 
-		void RefreshTable(int scrollIndex)
+		private void AddMoreTwitts()
+		{
+			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}));
+		}
+
+		private void RefreshTable(int scrollIndex)
 		{
 			TableWithTweets.ReloadData();
-			TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
+			if(_tweets.Count > 0)
+				TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
 		}
 	}
 }

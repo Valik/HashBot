@@ -48,14 +48,7 @@ namespace Touchin.HashBot
 
 		private void SetUserImageStyle()
 		{
-			var image = UIImage.FromFile("Images/Main/avatar_big.png");
-			UserImage.Image = image;
-			UserImage.Layer.CornerRadius = 5;
-			UserImage.Layer.MasksToBounds = true;
-			UserImage.Layer.BorderWidth = 1;
-			UserImage.Layer.BorderColor = UIColor.Black.CGColor;
-			UserImage.Layer.ShadowOffset = new SizeF(1, 1);
-			UserImage.Layer.ShadowColor = UIColor.FromRGBA(0, 0, 0, 50).CGColor;
+			UserImage.Image = CreateMaskedImage(_tweetInfo.AvatarBig);
 		}
 		
 		private UIBarButtonItem CreateBackButton()
@@ -74,6 +67,24 @@ namespace Touchin.HashBot
 		private void OnBarButtonClicked (object sender, EventArgs e)
 		{
 			NavigationController.PopViewControllerAnimated(true);
+		}
+
+		private UIImage CreateMaskedImage(UIImage originalImage)
+		{
+			var maskSource = UIImage.FromFile("Images/Main/mask_avatar.png").CGImage;
+
+			var mask = CGImage.CreateMask(maskSource.Width, 
+			                              maskSource.Height, 
+			                              maskSource.BitsPerComponent, 
+			                              maskSource.BitsPerPixel, 
+			                              maskSource.BytesPerRow, 
+			                              maskSource.DataProvider,
+			                              null,
+			                              true);
+
+			var maskedImage = originalImage.CGImage.WithMask(mask);
+
+			return new UIImage(maskedImage);
 		}
 	}
 }

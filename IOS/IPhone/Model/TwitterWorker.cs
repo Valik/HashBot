@@ -26,22 +26,12 @@ namespace Touchin.HashBot
 
 		public void FillTwittsByHashTag(string hashTag)
 		{
-			var searchThread = new Thread(SearchTwittsByHashTag);
-			searchThread.Start(hashTag);
-		}
-
-		public void SearchTwittsByHashTag(object hashTag)
-		{
 			var tag = hashTag as String;
 
-			var response = GetResponse(tag);
-
-			var complitedTwitts = FillTwits(response);
-
-			OnTwittsComplited(complitedTwitts);
+			BeginRequest(tag);
 		}
 
-		private IRestResponse<RootObject> GetResponse(string tag)
+		private void BeginRequest(string tag)
 		{
 			var client = new RestClient();
 			var request = new RestRequest("https://api.twitter.com/1.1/search/tweets.json");
@@ -49,23 +39,24 @@ namespace Touchin.HashBot
 			client.Authenticator = OAuth1Authenticator.ForProtectedResource(_consumerKey, _consumerSecret, _accessToken, _accesTokenSecret);
 			request.AddParameter("q", tag);
 			request.AddParameter("count", _countOfTwitts);
-			request.RequestFormat = DataFormat.Json;
-			request.RootElement = "RootObject";
 
-			return client.Execute<RootObject>(request);
+			client.ExecuteAsync<RootObject>(request, (response) =>
+			{
+				FillTwits(response);
+			});
 		}
 
-		private List<TweetInfo> FillTwits(IRestResponse<RootObject> response)
+		private void FillTwits(IRestResponse<RootObject> response)
 		{
 			var result = new List<TweetInfo>();
 
 			foreach (var curStatus in response.Data.statuses)
 			{
-				var curTwittInfo = new TweetInfo(curStatus.user.name, curStatus.text, curStatus.created_at, curStatus.user.profile_image_url);
+				var curTwittInfo = new TweetInfo(curStatus.user.name, curStatus.text, curStatus.createdAt, curStatus.user.profileImageUrl);
 				result.Add(curTwittInfo);
 			}
 
-			return result;
+			OnTwittsComplited(result);
 		}
 
 		private void OnTwittsComplited(List<TweetInfo> complitedTwitts)

@@ -112,6 +112,7 @@
     <Compile Include="Model\RootObject.cs" />
     <Compile Include="Model\Status.cs" />
     <Compile Include="Model\User.cs" />
+    <Compile Include="Controllers\ImageWorker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
