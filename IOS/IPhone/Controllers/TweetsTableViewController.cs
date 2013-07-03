@@ -9,14 +9,11 @@ namespace Touchin.HashBot
 	public partial class TweetsTableViewController : UIViewController
 	{
 		private List<TweetInfo> _tweets = new List<TweetInfo>();
-		private TabBarController _ownerTabController;
 		private bool _isInitState = true;
 		private TwitterWorker _worker;
 
 		public TweetsTableViewController (TabBarController tabController) : base ("TweetsTableViewController", null)
-		{
-			_ownerTabController = tabController;
-		}
+		{ }
 
 		public override void DidReceiveMemoryWarning ()
 		{
@@ -119,25 +116,23 @@ namespace Touchin.HashBot
 			InvokeOnMainThread(delegate 
 			{
 				AddTwitts(twitts);
+				DowloadImagesForTwitts(twitts);
 			});
 		}
 
 		private void AddTwitts(List<TweetInfo> twitts)
 		{
-			using (var pool = new NSAutoreleasePool())
+			if (_isInitState)
 			{
-				if (_isInitState)
-				{
-					_tweets.AddRange(twitts);
-					RefreshTable(0);
-					_isInitState = false;
-				}
-				else
-				{
-					int scrollIndex = _tweets.Count;
-					_tweets.AddRange(twitts);
-					RefreshTable(scrollIndex);
-				}
+				_tweets.AddRange(twitts);
+				RefreshTable(0);
+				_isInitState = false;
+			}
+			else
+			{
+				int scrollIndex = _tweets.Count;
+				_tweets.AddRange(twitts);
+				RefreshTable(scrollIndex);
 			}
 		}
 
@@ -151,6 +146,28 @@ namespace Touchin.HashBot
 			TableWithTweets.ReloadData();
 			if(_tweets.Count > 0)
 				TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
+		}
+
+		private void DowloadImagesForTwitts(List<TweetInfo> twitts)
+		{
+			foreach (var curTwittInfo in twitts)
+				if (curTwittInfo.UserImage == null)
+					DownloadUserImage(curTwittInfo);
+		}
+
+		private void DownloadUserImage(TweetInfo tweetInfo)
+		{
+			var imageWorker = new ImageWorker(OnImageDownloadedForTwitt, tweetInfo);
+			imageWorker.BeginDownloadingImage(tweetInfo.ImageSrc);
+		}
+
+		private void OnImageDownloadedForTwitt(UIImage userImage, TweetInfo tweetInfo)
+		{
+			InvokeOnMainThread(delegate 
+			{
+				tweetInfo.UserImage = userImage;
+				TableWithTweets.ReloadData();
+			});
 		}
 	}
 }

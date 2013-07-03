@@ -23,6 +23,11 @@ namespace Touchin.HashBot
 			return _items.Count;
 		}
 
+		public override void RowSelected(UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
+		{
+			OnCellSelected(_items[indexPath.Row]);
+		}
+
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
 			var tweetInfo = _items[indexPath.Row];
@@ -41,11 +46,6 @@ namespace Touchin.HashBot
 			}
 
 			return cell;
-		}
-
-		public override void RowSelected(UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
-		{
-			OnCellSelected(_items[indexPath.Row]);
 		}
 
 		private void OnCellSelected(TweetInfo tweetInfo)

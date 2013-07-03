@@ -23,20 +23,11 @@ namespace Touchin.HashBot
 
 				return date;
 			}
-			private set
-			{
-
-			}
+			private set 
+			{ }
 		}
 
-		public UIImage UserImage
-		{
-			get 
-			{ 
-
-				return UIImage.FromFile ("Images/Main/avatar_big.png"); 
-			} 
-		}
+		public UIImage UserImage { get; set; }
 
 		public UIImage Avatar
 		{

@@ -19,11 +19,20 @@ namespace Touchin.HashBot
 
 		public void UpdateCell(TweetInfo tweetInfo)
 		{
-			ImageView.Image = CreateMaskedImage(tweetInfo.Avatar);
+			SetUserImage(tweetInfo);
+			
 			TextLabel.Text = tweetInfo.UserName;
 			DetailTextLabel.Text = tweetInfo.TweetText;
 
 			SetTime(tweetInfo);
+		}
+
+		private void SetUserImage(TweetInfo tweetInfo)
+		{
+			if (tweetInfo.UserImage != null)
+				ImageView.Image = CreateMaskedImage(tweetInfo.UserImage);
+			else
+				ImageView.Image = CreateMaskedImage(tweetInfo.Avatar);
 		}
 
 		private void SetCellStyle()

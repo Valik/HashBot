@@ -48,7 +48,10 @@ namespace Touchin.HashBot
 
 		private void SetUserImageStyle()
 		{
-			UserImage.Image = CreateMaskedImage(_tweetInfo.AvatarBig);
+			if (_tweetInfo.UserImage != null)
+				UserImage.Image = CreateMaskedImage(_tweetInfo.UserImage);
+			else
+				UserImage.Image = CreateMaskedImage(_tweetInfo.AvatarBig);
 		}
 		
 		private UIBarButtonItem CreateBackButton()
