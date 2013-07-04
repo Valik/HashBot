@@ -16,21 +16,23 @@ namespace Touchin.HashBot.IPhone
 		private const string _accessToken = "1558296156-QCtKDAnKDtuJXMrXiTGxzYKIX5DzZy51qUelysB";
 		private const string _accesTokenSecret = "RJDwv3IpIEpN6ADJvuQtShLk9lwmP2Y6O7q7zJxtOU";
 
-		public TwitterWorker()
-		{
+		private RestClient _client;
 
+		public TwitterWorker ()
+		{
+			_client = new RestClient();
+			_client.Authenticator = OAuth1Authenticator.ForProtectedResource(
+				_consumerKey, _consumerSecret, _accessToken, _accesTokenSecret);
 		}
 
 		public void FillTwittsByHashTag(string hashTag, Action<IEnumerable<Twitt>> callback)
 		{
-			var client = new RestClient();
 			var request = new RestRequest("https://api.twitter.com/1.1/search/tweets.json");
 
-			client.Authenticator = OAuth1Authenticator.ForProtectedResource(_consumerKey, _consumerSecret, _accessToken, _accesTokenSecret);
 			request.AddParameter("q", hashTag);
 			request.AddParameter("count", _countOfTwitts);
 
-			client.ExecuteAsync<RootObject>(request, (response) => 
+			_client.ExecuteAsync<RootObject>(request, (response) => 
 			{
 				callback(response.Data.Statuses);
 			});

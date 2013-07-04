@@ -4,27 +4,29 @@ using System.Collections.Generic;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Touchin.HashBot.IPhone;
+using System.Linq;
 
 namespace Touchin.HashBot
 {
 	public partial class TweetsTableViewController : UIViewController
 	{
 		private List<Twitt> _twitts = new List<Twitt>();
-		private TwitterWorker _worker;
+		private TwitterWorker _worker = new TwitterWorker();
 		private UIAlertView _alert;
-		private bool _isInitState = true;
+		private string _title;
 
-		public TweetsTableViewController () : base ("TweetsTableViewController", null)
-		{ }
+		public TweetsTableViewController (string title) : base ("TweetsTableViewController", null)
+		{
+			_title = title;
+		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+			Title = "#" + _title;
 			CreateAlert();
-			StartShowAlert();
 			SetRightBarButton();
-			StartShowAlert();
-			FillTweets();
+			StartAddingTwitts();
 			ConfigureTable();
 			AddButtonShowMore();
 		}
@@ -44,6 +46,12 @@ namespace Touchin.HashBot
 			indicator.Center = new PointF(139.5f, 100);
 			indicator.StartAnimating();
 			_alert.AddSubview(indicator);
+		}
+
+		private void StartAddingTwitts()
+		{
+			StartShowAlert();
+			_worker.FillTwittsByHashTag(_title, OnTwittsCompleted);
 		}
 
 		private void StartShowAlert()
@@ -84,7 +92,7 @@ namespace Touchin.HashBot
 
 			button.TouchUpInside += (s, e) => 
 			{
-				ShowMoreTweets();
+				StartAddingTwitts();
 			};
 		}
 
@@ -118,18 +126,6 @@ namespace Touchin.HashBot
 			return button;
 		}
 
-		private void FillTweets()
-		{
-			_worker = new TwitterWorker();
-			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
-		}
-
-		private void ShowMoreTweets ()
-		{
-			StartShowAlert();
-			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
-		}
-
 		private void OnTwittsCompleted (IEnumerable<Twitt> twitts)
 		{
 			InvokeOnMainThread(delegate 
@@ -141,25 +137,11 @@ namespace Touchin.HashBot
 
 		private void AddTwitts(IEnumerable<Twitt> twitts)
 		{
-			if (_isInitState)
-			{
-				_twitts.AddRange(twitts);
-				RefreshTable(0);
-				_isInitState = false;
-			}
-			else
-			{
-				int scrollIndex = _twitts.Count;
-				_twitts.AddRange(twitts);
-				RefreshTable(scrollIndex);
-			}
-		}
+			int scrollIndex = _twitts.Count;
+			_twitts.AddRange(twitts);
 
-		private void RefreshTable(int scrollIndex)
-		{
 			TableWithTweets.ReloadData();
-			if(_twitts.Count > 0)
-				TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
+			TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
 		}
 	}
 }

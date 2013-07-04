@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Touchin.HashBot.IPhone
 {
-	public class Status
+	public class Twitt
 	{
 		public string CreatedAt { get; set; }
 		public string Text { get; set; }

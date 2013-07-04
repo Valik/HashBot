@@ -9,7 +9,7 @@ namespace Touchin.HashBot
 {
 	public class TableCell : UITableViewCell
 	{
-		private const int _tweetTextLenght = 30;
+		ImageLoader _imageLoader = new ImageLoader();
 		private UILabel _dateTimeLabel;
 
 		public TableCell(UITableViewCellStyle style, string cellId) : base (style, cellId)
@@ -41,8 +41,7 @@ namespace Touchin.HashBot
 
 		private void DownloadAndSetImage(Twitt twitt)
 		{
-			var imageLoader = new ImageLoader();
-			imageLoader.DownloadImageForTwitt(twitt, (image, sourceTwitt) => 
+			_imageLoader.DownloadImageForTwitt(twitt, (image, sourceTwitt) => 
 			{
 				InvokeOnMainThread(delegate
 				{

@@ -39,7 +39,7 @@ namespace Touchin.HashBot
 
 			LineImageView.Image = UIImage.FromFile("Images/Tweets/line.png");
 
-			DateLabel.Text = String.Format("{0:dd.MM.yyyy}", _twitt.TimeOfCreating);
+			DateLabel.Text = String.Format("{0:dd.MM.yyyy}", _twitt.CreatedAt);
 		}
 
 		private void SetViewStyle()
