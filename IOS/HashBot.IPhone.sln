@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashBot.IPhone", "IPhone\HashBot.IPhone.csproj", "{7BE2D790-2CD5-4D69-8C60-2BF94DC5002A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashBot.UI", "UI\HashBot.UI.csproj", "{7BE2D790-2CD5-4D69-8C60-2BF94DC5002A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashBot.IPhone", "IPhone\HashBot.IPhone.csproj", "{62DFF73D-8198-4EAA-811C-71345330441B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,18 @@ Global
 		AppStore|iPhone = AppStore|iPhone
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Release|iPhone.Build.0 = Release|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{62DFF73D-8198-4EAA-811C-71345330441B}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{7BE2D790-2CD5-4D69-8C60-2BF94DC5002A}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
 		{7BE2D790-2CD5-4D69-8C60-2BF94DC5002A}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
 		{7BE2D790-2CD5-4D69-8C60-2BF94DC5002A}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
@@ -27,6 +41,6 @@ Global
 		{7BE2D790-2CD5-4D69-8C60-2BF94DC5002A}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = IPhone\HashBot.IPhone.csproj
+		StartupItem = UI\HashBot.UI.csproj
 	EndGlobalSection
 EndGlobal

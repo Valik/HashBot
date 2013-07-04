@@ -5,11 +5,11 @@ using System.IO;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 
-namespace Touchin.HashBot
+namespace Touchin.HashBot.IPhone
 {
 	public delegate void ImageDownloadedForTwittHandler(UIImage image, TweetInfo twitt);
 
-	public class ImageWorker
+	public class ImageLoader
 	{
 		private RestClient client = new RestClient();
 

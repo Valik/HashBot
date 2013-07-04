@@ -2,7 +2,7 @@ using System;
 using MonoTouch.UIKit;
 using System.Globalization;
 
-namespace Touchin.HashBot
+namespace Touchin.HashBot.IPhone
 {
 	public class TweetInfo
 	{

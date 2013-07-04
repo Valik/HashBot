@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Touchin.HashBot
+namespace Touchin.HashBot.IPhone
 {
 	public class RootObject
 	{

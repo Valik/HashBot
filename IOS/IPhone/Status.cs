@@ -1,6 +1,6 @@
 using System;
 
-namespace Touchin.HashBot
+namespace Touchin.HashBot.IPhone
 {
 	public class Status
 	{

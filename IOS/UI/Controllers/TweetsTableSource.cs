@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MonoTouch.UIKit;
+using Touchin.HashBot.IPhone;
 
 namespace Touchin.HashBot
 {

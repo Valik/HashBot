@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using Touchin.HashBot.IPhone;
 
 namespace Touchin.HashBot
 {
@@ -184,8 +185,8 @@ namespace Touchin.HashBot
 
 		private void DownloadUserImage(TweetInfo tweetInfo)
 		{
-			var imageWorker = new ImageWorker();
-			imageWorker.DownloadImageForTwitt(tweetInfo, OnImageDownloadedForTwitt);
+			var imageLoader = new ImageLoader();
+			imageLoader.DownloadImageForTwitt(tweetInfo, OnImageDownloadedForTwitt);
 		}
 
 		private void OnImageDownloadedForTwitt(UIImage userImage, TweetInfo tweetInfo)

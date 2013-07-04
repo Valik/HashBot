@@ -5,7 +5,7 @@ using System.Threading;
 using RestSharp;
 using RestSharp.Authenticators;
 
-namespace Touchin.HashBot
+namespace Touchin.HashBot.IPhone
 {
 //	public delegate void TwittsCompletedHandler(List<TweetInfo> twitts);
 

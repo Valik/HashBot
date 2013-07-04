@@ -3,6 +3,7 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.CoreGraphics;
+using Touchin.HashBot.IPhone; 
 
 namespace Touchin.HashBot
 {
