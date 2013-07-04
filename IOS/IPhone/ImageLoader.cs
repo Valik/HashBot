@@ -11,7 +11,7 @@ namespace Touchin.HashBot.IPhone
 	{
 		private RestClient client = new RestClient();
 
-		public void DownloadImageForTwitt(Status twitt, Action<UIImage, Status> callBack)
+		public void DownloadImageForTwitt(Twitt twitt, Action<UIImage, Twitt> callBack)
 		{
 			var request = new RestRequest(twitt.User.ProfileImageUrl);
 

@@ -9,9 +9,9 @@ namespace Touchin.HashBot
 {
 	public partial class TweetScreenController : UIViewController
 	{
-		private Status _twitt;
+		private Twitt _twitt;
 
-		public TweetScreenController(Status twitt) : base ("TweetScreenController", null)
+		public TweetScreenController(Twitt twitt) : base ("TweetScreenController", null)
 		{
 			_twitt = twitt;
 			HidesBottomBarWhenPushed = true;

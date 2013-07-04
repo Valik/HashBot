@@ -21,7 +21,7 @@ namespace Touchin.HashBot.IPhone
 
 		}
 
-		public void FillTwittsByHashTag(string hashTag, Action<IEnumerable<Status>> callback)
+		public void FillTwittsByHashTag(string hashTag, Action<IEnumerable<Twitt>> callback)
 		{
 			var client = new RestClient();
 			var request = new RestRequest("https://api.twitter.com/1.1/search/tweets.json");

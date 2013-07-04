@@ -18,7 +18,7 @@ namespace Touchin.HashBot
 			AddTimeLabel();
 		}
 
-		public void UpdateCell(Status twitt)
+		public void UpdateCell(Twitt twitt)
 		{
 			SetUserImage(twitt);
 			
@@ -28,7 +28,7 @@ namespace Touchin.HashBot
 			SetTime(twitt);
 		}
 
-		private void SetUserImage(Status twitt)
+		private void SetUserImage(Twitt twitt)
 		{
 			if (twitt.User.UserImage != null)
 				ImageView.Image = CreateMaskedImage(twitt.User.UserImage);
@@ -39,7 +39,7 @@ namespace Touchin.HashBot
 			}
 		}
 
-		private void DownloadAndSetImage(Status twitt)
+		private void DownloadAndSetImage(Twitt twitt)
 		{
 			var imageLoader = new ImageLoader();
 			imageLoader.DownloadImageForTwitt(twitt, (image, sourceTwitt) => 
@@ -94,7 +94,7 @@ namespace Touchin.HashBot
 			return new UIImage(maskedImage);
 		}		
 
-		private void SetTime(Status twitt)
+		private void SetTime(Twitt twitt)
 		{
 			var diffTime = DateTime.Now - twitt.TimeOfCreating;
 

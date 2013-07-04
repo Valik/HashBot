@@ -9,7 +9,7 @@ namespace Touchin.HashBot
 {
 	public partial class TweetsTableViewController : UIViewController
 	{
-		private List<Status> _twitts = new List<Status>();
+		private List<Twitt> _twitts = new List<Twitt>();
 		private TwitterWorker _worker;
 		private UIAlertView _alert;
 		private bool _isInitState = true;
@@ -56,7 +56,7 @@ namespace Touchin.HashBot
 			_alert.DismissWithClickedButtonIndex(-1, true);
 		}
 
-		private void OnCellSelected(Status twitt)
+		private void OnCellSelected(Twitt twitt)
 		{
 			var tweetController = new TweetScreenController(twitt);
 			NavigationController.PushViewController(tweetController, true);
@@ -130,7 +130,7 @@ namespace Touchin.HashBot
 			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
 		}
 
-		private void OnTwittsCompleted (IEnumerable<Status> twitts)
+		private void OnTwittsCompleted (IEnumerable<Twitt> twitts)
 		{
 			InvokeOnMainThread(delegate 
 			{
@@ -139,7 +139,7 @@ namespace Touchin.HashBot
 			});
 		}
 
-		private void AddTwitts(IEnumerable<Status> twitts)
+		private void AddTwitts(IEnumerable<Twitt> twitts)
 		{
 			if (_isInitState)
 			{

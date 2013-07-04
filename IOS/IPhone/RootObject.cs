@@ -5,7 +5,7 @@ namespace Touchin.HashBot.IPhone
 {
 	public class RootObject
 	{
-		public List<Status> Statuses { get; set; }
+		public List<Twitt> Statuses { get; set; }
 	}
 }
 

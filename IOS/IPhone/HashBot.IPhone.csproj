@@ -50,9 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootObject.cs" />
-    <Compile Include="Status.cs" />
     <Compile Include="TwitterWorker.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ImageLoader.cs" />
+    <Compile Include="Twitt.cs" />
   </ItemGroup>
 </Project>

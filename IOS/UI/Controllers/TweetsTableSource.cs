@@ -5,16 +5,16 @@ using Touchin.HashBot.IPhone;
 
 namespace Touchin.HashBot
 {
-	public delegate void CellSelectedHandler(Status twitt);
+	public delegate void CellSelectedHandler(Twitt twitt);
 
 	public class TweetsTableSource : UITableViewSource
 	{
 		public event CellSelectedHandler CellSelected;
 
-		private List<Status> _items;
+		private List<Twitt> _items;
 		private static string _tableCellId = "tweetCell";
 
-		public TweetsTableSource (List<Status> items)
+		public TweetsTableSource (List<Twitt> items)
 		{
 			_items = items;
 		}
@@ -49,7 +49,7 @@ namespace Touchin.HashBot
 			return cell;
 		}
 
-		private void OnCellSelected(Status twitt)
+		private void OnCellSelected(Twitt twitt)
 		{
 			if (CellSelected != null)
 				CellSelected.Invoke(twitt);
