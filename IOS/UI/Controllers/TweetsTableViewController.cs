@@ -68,12 +68,10 @@ namespace Touchin.HashBot
 			var rightBurButton = new UIBarButtonItem();
 			rightBurButton.Title = "Инфо";
 			NavigationItem.RightBarButtonItem = rightBurButton;
-			rightBurButton.Clicked += OnInfoButtonClicked;
-		}
-
-		private void OnInfoButtonClicked (object sender, EventArgs e)
-		{
-			NavigationController.PushViewController(new InfoController(), true);
+			rightBurButton.Clicked += (s, e) =>
+			{
+				NavigationController.PushViewController(new InfoController(), true);
+			};
 		}
 
 		private void AddButtonShowMore()
@@ -84,7 +82,7 @@ namespace Touchin.HashBot
 
 			TableWithTweets.TableFooterView = buttonContainer;
 
-			button.TouchUpInside += (sender, e) => 
+			button.TouchUpInside += (s, e) => 
 			{
 				ShowMoreTweets();
 			};
@@ -120,15 +118,15 @@ namespace Touchin.HashBot
 			return button;
 		}
 
-		private void ShowMoreTweets ()
-		{
-			StartShowAlert();
-			AddMoreTwitts();
-		}
-
 		private void FillTweets()
 		{
 			_worker = new TwitterWorker();
+			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
+		}
+
+		private void ShowMoreTweets ()
+		{
+			StartShowAlert();
 			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
 		}
 
@@ -155,11 +153,6 @@ namespace Touchin.HashBot
 				_twitts.AddRange(twitts);
 				RefreshTable(scrollIndex);
 			}
-		}
-
-		private void AddMoreTwitts()
-		{
-			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
 		}
 
 		private void RefreshTable(int scrollIndex)
