@@ -13,20 +13,20 @@ namespace Touchin.HashBot
 		private List<Twitt> _twitts = new List<Twitt>();
 		private TwitterWorker _worker = new TwitterWorker();
 		private UIAlertView _alert;
-		private string _title;
+		private string _hashTag;
 
-		public TweetsTableViewController (string title) : base ("TweetsTableViewController", null)
+		public TweetsTableViewController (string hashTag) : base ("TweetsTableViewController", null)
 		{
-			_title = title;
+			_hashTag = hashTag;
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			Title = "#" + _title;
+			Title = "#" + _hashTag;
 			CreateAlert();
 			SetRightBarButton();
-			StartAddingTwitts();
+			AddTwittsAsync();
 			ConfigureTable();
 			AddButtonShowMore();
 		}
@@ -48,10 +48,10 @@ namespace Touchin.HashBot
 			_alert.AddSubview(indicator);
 		}
 
-		private void StartAddingTwitts()
+		private void AddTwittsAsync()
 		{
 			StartShowAlert();
-			_worker.FillTwittsByHashTag(_title, OnTwittsCompleted);
+			_worker.FillTwittsByHashTag(_hashTag, OnTwittsLoadingCompleted);
 		}
 
 		private void StartShowAlert()
@@ -92,7 +92,7 @@ namespace Touchin.HashBot
 
 			button.TouchUpInside += (s, e) => 
 			{
-				StartAddingTwitts();
+				AddTwittsAsync();
 			};
 		}
 
@@ -126,22 +126,17 @@ namespace Touchin.HashBot
 			return button;
 		}
 
-		private void OnTwittsCompleted (IEnumerable<Twitt> twitts)
+		private void OnTwittsLoadingCompleted (IEnumerable<Twitt> twitts)
 		{
 			InvokeOnMainThread(delegate 
 			{
-				AddTwitts(twitts);
+				int scrollIndex = _twitts.Count;
+				_twitts.AddRange(twitts);
+
+				TableWithTweets.ReloadData();
+				TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
 				StopShowAlert();
 			});
-		}
-
-		private void AddTwitts(IEnumerable<Twitt> twitts)
-		{
-			int scrollIndex = _twitts.Count;
-			_twitts.AddRange(twitts);
-
-			TableWithTweets.ReloadData();
-			TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
 		}
 	}
 }

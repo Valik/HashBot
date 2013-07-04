@@ -9,8 +9,9 @@ namespace Touchin.HashBot
 {
 	public class TableCell : UITableViewCell
 	{
-		ImageLoader _imageLoader = new ImageLoader();
+		private ImageLoader _imageLoader = new ImageLoader();
 		private UILabel _dateTimeLabel;
+		private Twitt _currentTwitt;
 
 		public TableCell(UITableViewCellStyle style, string cellId) : base (style, cellId)
 		{
@@ -30,13 +31,9 @@ namespace Touchin.HashBot
 
 		private void SetUserImage(Twitt twitt)
 		{
-			if (twitt.User.UserImage != null)
-				ImageView.Image = CreateMaskedImage(twitt.User.UserImage);
-			else
-			{
-				ImageView.Image = CreateMaskedImage(twitt.User.Avatar);
-				DownloadAndSetImage(twitt);
-			}
+			_currentTwitt = twitt;
+			ImageView.Image = CreateMaskedImage(UIImage.FromFile("Images/Main/avatar.png"));
+			DownloadAndSetImage(twitt);
 		}
 
 		private void DownloadAndSetImage(Twitt twitt)
@@ -45,8 +42,10 @@ namespace Touchin.HashBot
 			{
 				InvokeOnMainThread(delegate
 				{
-					sourceTwitt.User.UserImage = image;
-					ImageView.Image = CreateMaskedImage(sourceTwitt.User.UserImage);
+					if (_currentTwitt == sourceTwitt)
+					{
+						ImageView.Image = CreateMaskedImage(image);
+					}
 				});
 			});
 		}

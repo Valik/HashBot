@@ -39,7 +39,7 @@ namespace Touchin.HashBot
 
 			LineImageView.Image = UIImage.FromFile("Images/Tweets/line.png");
 
-			DateLabel.Text = String.Format("{0:dd.MM.yyyy}", _twitt.CreatedAt);
+			DateLabel.Text = String.Format("{0:dd.MM.yyyy}", _twitt.TimeOfCreating);
 		}
 
 		private void SetViewStyle()
@@ -51,10 +51,8 @@ namespace Touchin.HashBot
 
 		private void SetUserImageStyle()
 		{
-			if (_twitt.User.UserImage != null)
-				UserImage.Image = CreateMaskedImage(_twitt.User.UserImage);
-			else
-				UserImage.Image = CreateMaskedImage(_twitt.User.AvatarBig);
+			UserImage.Image = CreateMaskedImage(UIImage.FromFile("Images/Main/avatar_big.png"));
+			DownloadAndSetImage();
 		}
 		
 		private UIBarButtonItem CreateBackButton()
@@ -67,12 +65,24 @@ namespace Touchin.HashBot
 			backButton.SetTitle("Твиты", UIControlState.Normal);
 			backButton.TouchUpInside += OnBarButtonClicked;
 
-			return new UIBarButtonItem(backButton);;
+			return new UIBarButtonItem(backButton);
 		}
 
 		private void OnBarButtonClicked (object sender, EventArgs e)
 		{
 			NavigationController.PopViewControllerAnimated(true);
+		}
+
+		private void DownloadAndSetImage()
+		{
+			var ImageLoader = new ImageLoader();
+			ImageLoader.DownloadImageForTwitt(_twitt, (image, sourceTwitt) => 
+			{
+				InvokeOnMainThread(delegate
+				{
+					UserImage.Image = CreateMaskedImage(image);
+				});
+			});
 		}
 
 		private UIImage CreateMaskedImage(UIImage originalImage)
