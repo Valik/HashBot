@@ -21,7 +21,8 @@ namespace Touchin.HashBot
 
 		public void UpdateCell(Twitt twitt)
 		{
-			SetUserImage(twitt);
+			_currentTwitt = twitt;
+			SetUserImage();
 			
 			TextLabel.Text = twitt.User.Name;
 			DetailTextLabel.Text = twitt.Text;
@@ -29,24 +30,23 @@ namespace Touchin.HashBot
 			SetTime(twitt);
 		}
 
-		private void SetUserImage(Twitt twitt)
+		private void SetUserImage()
 		{
-			_currentTwitt = twitt;
 			ImageView.Image = CreateMaskedImage(UIImage.FromFile("Images/Main/avatar.png"));
-			DownloadAndSetImage(twitt);
+			DownloadAndSetImage();
 		}
 
-		private void DownloadAndSetImage(Twitt twitt)
+		private void DownloadAndSetImage()
 		{
-			_imageLoader.DownloadImageForTwitt(twitt, (image, sourceTwitt) => 
+			_imageLoader.DownloadImageForTwitt(_currentTwitt, (image, sourceTwitt) => 
 			{
-				InvokeOnMainThread(delegate
+				if (_currentTwitt == sourceTwitt)
 				{
-					if (_currentTwitt == sourceTwitt)
+					InvokeOnMainThread(delegate
 					{
 						ImageView.Image = CreateMaskedImage(image);
-					}
-				});
+					});
+				}
 			});
 		}
 

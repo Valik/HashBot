@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MonoTouch.UIKit;
 using Touchin.HashBot.IPhone;
+using System.Collections;
 
 namespace Touchin.HashBot
 {
@@ -11,12 +12,17 @@ namespace Touchin.HashBot
 	{
 		public event CellSelectedHandler CellSelected;
 
-		private List<Twitt> _items;
+		private List<Twitt> _items = new List<Twitt>();
 		private static string _tableCellId = "tweetCell";
 
-		public TweetsTableSource (List<Twitt> items)
+		public TweetsTableSource ()
+		{ }
+
+		public int ItemsCount { get { return _items.Count; } }
+
+		public void AddTwitts(IEnumerable<Twitt> twitts)
 		{
-			_items = items;
+			_items.AddRange(twitts);
 		}
 
 		public override int RowsInSection (UITableView tableView, int section)

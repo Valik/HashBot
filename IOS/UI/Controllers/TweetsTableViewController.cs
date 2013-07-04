@@ -10,7 +10,7 @@ namespace Touchin.HashBot
 {
 	public partial class TweetsTableViewController : UIViewController
 	{
-		private List<Twitt> _twitts = new List<Twitt>();
+		private TweetsTableSource _tableSource = new TweetsTableSource();
 		private TwitterWorker _worker = new TwitterWorker();
 		private UIAlertView _alert;
 		private string _hashTag;
@@ -29,11 +29,6 @@ namespace Touchin.HashBot
 			AddTwittsAsync();
 			ConfigureTable();
 			AddButtonShowMore();
-		}
-
-		public override void ViewDidAppear(bool animated)
-		{
-			base.ViewDidAppear(animated);
 		}
 
 		private void CreateAlert()
@@ -98,9 +93,8 @@ namespace Touchin.HashBot
 
 		private void ConfigureTable()
 		{
-			var tableSource = new TweetsTableSource(_twitts);
-			tableSource.CellSelected += OnCellSelected;
-			TableWithTweets.Source = tableSource;
+			_tableSource.CellSelected += OnCellSelected;
+			TableWithTweets.Source = _tableSource;
 		}
 
 		private UIButton CreateButton()
@@ -130,8 +124,8 @@ namespace Touchin.HashBot
 		{
 			InvokeOnMainThread(delegate 
 			{
-				int scrollIndex = _twitts.Count;
-				_twitts.AddRange(twitts);
+				int scrollIndex = _tableSource.ItemsCount;
+				_tableSource.AddTwitts(twitts);
 
 				TableWithTweets.ReloadData();
 				TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
