@@ -7,13 +7,11 @@ using MonoTouch.Foundation;
 
 namespace Touchin.HashBot.IPhone
 {
-	public delegate void ImageDownloadedForTwittHandler(UIImage image, Status twitt);
-
 	public class ImageLoader
 	{
 		private RestClient client = new RestClient();
 
-		public void DownloadImageForTwitt(Status twitt, ImageDownloadedForTwittHandler callBack)
+		public void DownloadImageForTwitt(Status twitt, Action<UIImage, Status> callBack)
 		{
 			var request = new RestRequest(twitt.User.ProfileImageUrl);
 

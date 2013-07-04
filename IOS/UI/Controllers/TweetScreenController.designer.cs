@@ -22,6 +22,9 @@ namespace Touchin.HashBot
 
 		[Outlet]
 		MonoTouch.UIKit.UIImageView LineImageView { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel DateLabel { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -43,6 +46,11 @@ namespace Touchin.HashBot
 			if (LineImageView != null) {
 				LineImageView.Dispose ();
 				LineImageView = null;
+			}
+
+			if (DateLabel != null) {
+				DateLabel.Dispose ();
+				DateLabel = null;
 			}
 		}
 	}
