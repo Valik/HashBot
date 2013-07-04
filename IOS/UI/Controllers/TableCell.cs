@@ -18,22 +18,22 @@ namespace Touchin.HashBot
 			AddTimeLabel();
 		}
 
-		public void UpdateCell(TweetInfo tweetInfo)
+		public void UpdateCell(Status twitt)
 		{
-			SetUserImage(tweetInfo);
+			SetUserImage(twitt);
 			
-			TextLabel.Text = tweetInfo.UserName;
-			DetailTextLabel.Text = tweetInfo.TweetText;
+			TextLabel.Text = twitt.User.Name;
+			DetailTextLabel.Text = twitt.Text;
 
-			SetTime(tweetInfo);
+			SetTime(twitt);
 		}
 
-		private void SetUserImage(TweetInfo tweetInfo)
+		private void SetUserImage(Status twitt)
 		{
-			if (tweetInfo.UserImage != null)
-				ImageView.Image = CreateMaskedImage(tweetInfo.UserImage);
+			if (twitt.User.UserImage != null)
+				ImageView.Image = CreateMaskedImage(twitt.User.UserImage);
 			else
-				ImageView.Image = CreateMaskedImage(tweetInfo.Avatar);
+				ImageView.Image = CreateMaskedImage(twitt.User.Avatar);
 		}
 
 		private void SetCellStyle()
@@ -78,10 +78,9 @@ namespace Touchin.HashBot
 			return new UIImage(maskedImage);
 		}		
 
-		private void SetTime(TweetInfo tweetInfo)
+		private void SetTime(Status twitt)
 		{
-			DateTime timeOfCreating = tweetInfo.TimeOfCreating;
-			var diffTime = DateTime.Now - timeOfCreating;
+			var diffTime = DateTime.Now - twitt.TimeOfCreating;
 
 			if (diffTime.Days > 0)
 			{

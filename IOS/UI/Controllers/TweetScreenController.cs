@@ -9,11 +9,11 @@ namespace Touchin.HashBot
 {
 	public partial class TweetScreenController : UIViewController
 	{
-		private TweetInfo _tweetInfo;
+		private Status _twitt;
 
-		public TweetScreenController(TweetInfo tweetInfo) : base ("TweetScreenController", null)
+		public TweetScreenController(Status twitt) : base ("TweetScreenController", null)
 		{
-			_tweetInfo = tweetInfo;
+			_twitt = twitt;
 			HidesBottomBarWhenPushed = true;
 		}
 
@@ -33,9 +33,9 @@ namespace Touchin.HashBot
 			SetViewStyle();
 			SetUserImageStyle();
 
-			UserName.Text = _tweetInfo.UserName;
+			UserName.Text = _twitt.User.Name;
 
-			TweetLabel.Text = _tweetInfo.TweetText;
+			TweetLabel.Text = _twitt.Text;
 
 			LineImageView.Image = UIImage.FromFile("Images/Tweets/line.png");
 		}
@@ -49,10 +49,10 @@ namespace Touchin.HashBot
 
 		private void SetUserImageStyle()
 		{
-			if (_tweetInfo.UserImage != null)
-				UserImage.Image = CreateMaskedImage(_tweetInfo.UserImage);
+			if (_twitt.User.UserImage != null)
+				UserImage.Image = CreateMaskedImage(_twitt.User.UserImage);
 			else
-				UserImage.Image = CreateMaskedImage(_tweetInfo.AvatarBig);
+				UserImage.Image = CreateMaskedImage(_twitt.User.AvatarBig);
 		}
 		
 		private UIBarButtonItem CreateBackButton()

@@ -5,21 +5,21 @@ using Touchin.HashBot.IPhone;
 
 namespace Touchin.HashBot
 {
-	public delegate void CellSelectedHandler(TweetInfo tweetInfo);
+	public delegate void CellSelectedHandler(Status twitt);
 
 	public class TweetsTableSource : UITableViewSource
 	{
 		public event CellSelectedHandler CellSelected;
 
-		private List<TweetInfo> _items;
+		private List<Status> _items;
 		private static string _tableCellId = "tweetCell";
 
-		public TweetsTableSource (List<TweetInfo> tweets)
+		public TweetsTableSource (List<Status> items)
 		{
-			_items = tweets;
+			_items = items;
 		}
 
-		public override int RowsInSection (UITableView tableview, int section)
+		public override int RowsInSection (UITableView tableView, int section)
 		{
 			return _items.Count;
 		}
@@ -31,10 +31,10 @@ namespace Touchin.HashBot
 
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
-			var tweetInfo = _items[indexPath.Row];
+			var twitt = _items[indexPath.Row];
 			var cell = DequeueOrCreateCell(tableView);	
 
-			cell.UpdateCell(tweetInfo);
+			cell.UpdateCell(twitt);
 			return cell;
 		}
 
@@ -49,10 +49,10 @@ namespace Touchin.HashBot
 			return cell;
 		}
 
-		private void OnCellSelected(TweetInfo tweetInfo)
+		private void OnCellSelected(Status twitt)
 		{
 			if (CellSelected != null)
-				CellSelected.Invoke(tweetInfo);
+				CellSelected.Invoke(twitt);
 		}
 	}
 }

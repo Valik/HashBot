@@ -9,7 +9,7 @@ namespace Touchin.HashBot
 {
 	public partial class TweetsTableViewController : UIViewController
 	{
-		private List<TweetInfo> _tweets = new List<TweetInfo>();
+		private List<Status> _twitts = new List<Status>();
 		private TwitterWorker _worker;
 		private UIAlertView _alert;
 		private bool _isInitState = true;
@@ -61,9 +61,9 @@ namespace Touchin.HashBot
 			_alert.DismissWithClickedButtonIndex(-1, true);
 		}
 
-		private void OnCellSelected(TweetInfo tweetInfo)
+		private void OnCellSelected(Status twitt)
 		{
-			var tweetController = new TweetScreenController(tweetInfo);
+			var tweetController = new TweetScreenController(twitt);
 			NavigationController.PushViewController(tweetController, true);
 			TableWithTweets.DeselectRow(TableWithTweets.IndexPathForSelectedRow, false);
 		}
@@ -97,7 +97,7 @@ namespace Touchin.HashBot
 
 		private void ConfigureTable()
 		{
-			var tableSource = new TweetsTableSource(_tweets);
+			var tableSource = new TweetsTableSource(_twitts);
 			tableSource.CellSelected += OnCellSelected;
 			TableWithTweets.Source = tableSource;
 		}
@@ -138,7 +138,7 @@ namespace Touchin.HashBot
 			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
 		}
 
-		private void OnTwittsCompleted (IEnumerable<TweetInfo> twitts)
+		private void OnTwittsCompleted (IEnumerable<Status> twitts)
 		{
 			InvokeOnMainThread(delegate 
 			{
@@ -148,18 +148,18 @@ namespace Touchin.HashBot
 			});
 		}
 
-		private void AddTwitts(IEnumerable<TweetInfo> twitts)
+		private void AddTwitts(IEnumerable<Status> twitts)
 		{
 			if (_isInitState)
 			{
-				_tweets.AddRange(twitts);
+				_twitts.AddRange(twitts);
 				RefreshTable(0);
 				_isInitState = false;
 			}
 			else
 			{
-				int scrollIndex = _tweets.Count;
-				_tweets.AddRange(twitts);
+				int scrollIndex = _twitts.Count;
+				_twitts.AddRange(twitts);
 				RefreshTable(scrollIndex);
 			}
 		}
@@ -172,28 +172,28 @@ namespace Touchin.HashBot
 		private void RefreshTable(int scrollIndex)
 		{
 			TableWithTweets.ReloadData();
-			if(_tweets.Count > 0)
+			if(_twitts.Count > 0)
 				TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
 		}
 
-		private void DowloadImagesForTwitts(IEnumerable<TweetInfo> twitts)
+		private void DowloadImagesForTwitts(IEnumerable<Status> twitts)
 		{
-			foreach (var curTwittInfo in twitts)
-				if (curTwittInfo.UserImage == null)
-					DownloadUserImage(curTwittInfo);
+			foreach (var curTwitt in twitts)
+				if (curTwitt.User.UserImage == null)
+					DownloadUserImage(curTwitt);
 		}
 
-		private void DownloadUserImage(TweetInfo tweetInfo)
+		private void DownloadUserImage(Status tweetInfo)
 		{
 			var imageLoader = new ImageLoader();
 			imageLoader.DownloadImageForTwitt(tweetInfo, OnImageDownloadedForTwitt);
 		}
 
-		private void OnImageDownloadedForTwitt(UIImage userImage, TweetInfo tweetInfo)
+		private void OnImageDownloadedForTwitt(UIImage userImage, Status tweetInfo)
 		{
 			InvokeOnMainThread(delegate 
 			{
-				tweetInfo.UserImage = userImage;
+				tweetInfo.User.UserImage = userImage;
 				TableWithTweets.ReloadData();
 			});
 		}

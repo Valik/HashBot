@@ -7,8 +7,6 @@ using RestSharp.Authenticators;
 
 namespace Touchin.HashBot.IPhone
 {
-//	public delegate void TwittsCompletedHandler(List<TweetInfo> twitts);
-
 	public class TwitterWorker
 	{
 		private const int _countOfTwitts = 5;
@@ -23,7 +21,7 @@ namespace Touchin.HashBot.IPhone
 
 		}
 
-		public void FillTwittsByHashTag(string hashTag, Action<IEnumerable<TweetInfo>> callback)
+		public void FillTwittsByHashTag(string hashTag, Action<IEnumerable<Status>> callback)
 		{
 			var client = new RestClient();
 			var request = new RestRequest("https://api.twitter.com/1.1/search/tweets.json");
@@ -34,12 +32,7 @@ namespace Touchin.HashBot.IPhone
 
 			client.ExecuteAsync<RootObject>(request, (response) => 
 			{
-				var result = new List<TweetInfo>();
-
-				foreach (var curStatus in response.Data.statuses)
-					result.Add(new TweetInfo(curStatus.user.name, curStatus.text, curStatus.createdAt, curStatus.user.profileImageUrl));
-
-				callback(result);
+				callback(response.Data.Statuses);
 			});
 
 		}
