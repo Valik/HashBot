@@ -2,11 +2,15 @@ using System;
 using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.MessageUI;
 
 namespace Touchin.HashBot
 {
 	public partial class InfoController : UIViewController
-	{
+	{		
+		private const string _mail = "valik-ne@yandex.ru";
+		private MFMailComposeViewController _mailController;
+
 		public InfoController() : base ("InfoController", null)
 		{
 			HidesBottomBarWhenPushed = true;
@@ -58,12 +62,26 @@ namespace Touchin.HashBot
 			}
 		}
 
-		private void OnMailButtonClicked(object sender, EventArgs e)
+		private void OnMailButtonClicked(object sender, EventArgs args)
 		{
-			var companyUrl = new NSUrl("http://touchin.ru/");
-			if (!UIApplication.SharedApplication.OpenUrl(companyUrl))
+			if (!MFMailComposeViewController.CanSendMail)
 			{
+				Console.WriteLine("Can't send mail.");
+				return;
 			}
+
+			_mailController = new MFMailComposeViewController();
+			_mailController.SetToRecipients(new string[]{ _mail });
+			_mailController.SetSubject("TouchInstinct Support");
+			_mailController.SetMessageBody("Enter you message.", false);
+
+			_mailController.Finished += (s, e) => 
+			{
+				Console.WriteLine(e.Result.ToString());
+				e.Controller.DismissViewController(true, null);
+			};
+
+			PresentViewController(_mailController, true, null);
 		}
 	}
 }

@@ -14,13 +14,8 @@ namespace Touchin.HashBot
 		private UIAlertView _alert;
 		private bool _isInitState = true;
 
-		public TweetsTableViewController (TabBarController tabController) : base ("TweetsTableViewController", null)
+		public TweetsTableViewController () : base ("TweetsTableViewController", null)
 		{ }
-
-		public override void DidReceiveMemoryWarning ()
-		{
-			base.DidReceiveMemoryWarning ();
-		}
 
 		public override void ViewDidLoad ()
 		{
@@ -134,7 +129,6 @@ namespace Touchin.HashBot
 		private void FillTweets()
 		{
 			_worker = new TwitterWorker();
-
 			_worker.FillTwittsByHashTag(Title.TrimStart(new char[]{'#'}), OnTwittsCompleted);
 		}
 
@@ -144,7 +138,6 @@ namespace Touchin.HashBot
 			{
 				AddTwitts(twitts);
 				StopShowAlert();
-				DowloadImagesForTwitts(twitts);
 			});
 		}
 
@@ -174,28 +167,6 @@ namespace Touchin.HashBot
 			TableWithTweets.ReloadData();
 			if(_twitts.Count > 0)
 				TableWithTweets.ScrollToRow(NSIndexPath.FromRowSection(scrollIndex, 0), UITableViewScrollPosition.Top, true);
-		}
-
-		private void DowloadImagesForTwitts(IEnumerable<Status> twitts)
-		{
-			foreach (var curTwitt in twitts)
-				if (curTwitt.User.UserImage == null)
-					DownloadUserImage(curTwitt);
-		}
-
-		private void DownloadUserImage(Status tweetInfo)
-		{
-			var imageLoader = new ImageLoader();
-			imageLoader.DownloadImageForTwitt(tweetInfo, OnImageDownloadedForTwitt);
-		}
-
-		private void OnImageDownloadedForTwitt(UIImage userImage, Status tweetInfo)
-		{
-			InvokeOnMainThread(delegate 
-			{
-				tweetInfo.User.UserImage = userImage;
-				TableWithTweets.ReloadData();
-			});
 		}
 	}
 }

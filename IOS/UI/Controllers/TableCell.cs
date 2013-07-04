@@ -33,7 +33,23 @@ namespace Touchin.HashBot
 			if (twitt.User.UserImage != null)
 				ImageView.Image = CreateMaskedImage(twitt.User.UserImage);
 			else
+			{
 				ImageView.Image = CreateMaskedImage(twitt.User.Avatar);
+				DownloadAndSetImage(twitt);
+			}
+		}
+
+		private void DownloadAndSetImage(Status twitt)
+		{
+			var imageLoader = new ImageLoader();
+			imageLoader.DownloadImageForTwitt(twitt, (image, sourceTwitt) => 
+			{
+				InvokeOnMainThread(delegate
+				{
+					sourceTwitt.User.UserImage = image;
+					ImageView.Image = CreateMaskedImage(sourceTwitt.User.UserImage);
+				});
+			});
 		}
 
 		private void SetCellStyle()
